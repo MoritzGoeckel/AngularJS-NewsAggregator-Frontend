@@ -1,0 +1,75 @@
+<html>
+	<header>
+		<title>Breaking News</title>
+        <meta charset="UTF-8">
+        <script src="Chart.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <script src="angular.min.js"></script>
+        <script src="today.js"></script>
+
+        <script>
+            function format(string)
+            {
+                if(string.length > 12)
+                    string = string.substr(0, 9) + "...";
+
+                return string;
+            }
+        </script>
+
+	</header>
+	<body ng-app="app">
+		<div id="main" ng-controller="searchController">
+		
+			<a href="index.html" class="head_link">
+				<div id="head">
+					<span class="logotext">Breaking News</span>
+					<hr class="mainHr"/>
+				</div>
+			</a>
+			
+			<div id="inner">
+				<div id="content">
+					<h1>{{headline}}</h1>
+                    <span ng-repeat="item in articles.data"><a href="%7B%7Bitem.link%7D%7D.html">{{item.title}}</a> <small>[{{item.source}}]</small><br /></span>
+
+                    <p>
+					
+					<script>
+						function openWindow()
+						{
+							var word = angular.element(document.querySelector('[ng-controller="searchController"]')).scope().current_word;
+							
+							var url = "http://minutus.de/news/articles.html";
+							if(word != null)
+								url = url + "#" + word;
+								
+							window.open(url, "Breaking News", "width=500, toolbar=no");
+						}
+					</script>
+					<strong><a href="" onclick="openWindow()">Weitere Artikel</a></strong>
+					
+					<p>
+
+                    <div style="width:95%">
+                        <div id="canvasContainer"></div>
+                    </div>
+
+
+					<a href="http://moritzgoeckel.com" class="byText"><br />von Moritz G&ouml;ckel</a>
+				</div>
+				
+				<div id="words_left">
+					<h1>Themen</h1>
+                    <span ng-repeat="item in words.data" ng-if="$odd"><a ng-click="useWord(this.item.word)" word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+				
+				<div id="words_right">
+                    <input type="text" ng-keyup="downloadWords()" ng-model="word_search" style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 1.3em; margin-top: 23px; margin-bottom: 22px;" placeholder=" Suche">
+                    <span ng-repeat="item in words.data" ng-if="$even"><a ng-click="useWord(this.item.word)" word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

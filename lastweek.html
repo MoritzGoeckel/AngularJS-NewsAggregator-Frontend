@@ -1,0 +1,76 @@
+<html>
+	<header>
+		<title>Breaking News</title>
+        <meta charset="UTF-8">
+        <script src="Chart.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <script src="angular.min.js"></script>
+        <script src="lastweek.js"></script>
+
+        <script>
+            function format(string)
+            {
+                if(string.length > 12)
+                    string = string.substr(0, 9) + "...";
+
+                return string;
+            }
+        </script>
+
+	</header>
+	<body ng-app="lastweek">
+		<div id="main" ng-controller="showDataController">
+		
+			<a href="index.html" class="head_link">
+				<div id="head">
+					<span class="logotext">Breaking News</span>
+					<hr class="mainHr"/>
+				</div>
+			</a>
+						
+			<div style="text-transform:capitalize;">
+					<h1>Letzte Woche</h1>
+					<span ng-repeat="item in words[0].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small> {{$last ? '' : '|'}} </span>
+			</div>
+			
+			<div id="inner">
+				<div class="weekdayList">
+					<h1>{{getDayMinus(0)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(0)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+
+				<div class="weekdayList">
+					<h1>{{getDayMinus(1)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(1)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+
+				<div class="weekdayList">
+					<h1>{{getDayMinus(2)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(2)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+
+				<div class="weekdayList">
+					<h1>{{getDayMinus(3)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(3)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+
+				<div class="weekdayList">
+					<h1>{{getDayMinus(4)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(4)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+
+				<div class="weekdayList">
+					<h1>{{getDayMinus(5)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(5)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+
+				<div class="weekdayList">
+					<h1>{{getDayMinus(6)}}</h1>
+					<span ng-repeat="item in words[getTodayMinus(6)].data"><a word="{{item.word}}" href="today.html#%7B%7Bitem.word%7D%7D">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
+				</div>
+			</div>
+			<a href="http://moritzgoeckel.com" class="byText" style="position: relative; top: 10px;">von Moritz G&ouml;ckel</a>
+		</div>
+	</body>
+</html>
