@@ -1,0 +1,28 @@
+<html>
+	<header>
+		<title>Breaking News</title>
+        <meta charset="UTF-8">
+        <script src="Chart.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <script src="angular.min.js"></script>
+        <script src="articles.js"></script>
+
+        <script>
+            function format(string)
+            {
+                if(string.length > 12)
+                    string = string.substr(0, 9) + "...";
+
+                return string;
+            }
+        </script>
+
+	</header>
+	<body ng-app="app">
+		<div id="main" style="width: auto; margin: 0px 0px 0px 0px;" ng-controller="searchController">		
+			<h1>{{headline}}</h1>
+			<span ng-repeat="item in articles.data">{{item.formatDate}} <a href="{{item.link}}">{{item.title}}</a> <small>[{{item.source}}]</small><br /></span>
+		</div>
+	</body>
+</html>
