@@ -56,7 +56,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         $scope.downloadWords();
         $scope.downloadArticles();
     }
-    
+
     $scope.downloadWords = function ()
     {
         var url = 'http://minutus.de/news/api.php?mode=words&count=88&date=' + getToday(); //Heute
@@ -85,45 +85,31 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
             });
     }
 
-    this.canvas = null;
     $scope.createChart = function ()
     {
         if($scope.current_word != null && $scope.current_word != "") {
             $http.get('http://minutus.de/news/api.php?mode=chart&word=' + $scope.current_word)
                 .then(function (res) {
 
-                    var chartData = {
-                        labels :  res.data.data.dates ,
-                        datasets : [
-                            {
-                                label: "Data",
-                                fillColor : "rgba(151,187,205,0.2)",
-                                strokeColor : "rgba(151,187,205,1)",
-                                pointColor : "rgba(151,187,205,1)",
-                                pointStrokeColor : "#fff",
-                                pointHighlightFill : "#fff",
-                                pointHighlightStroke : "rgba(151,187,205,1)",
-                                data :  res.data.data.values
-                            }
-                        ]
-                    };
+                    var chartData = "[";
+                    for(i = 0; i < res.data.data.dates.length; i++)
+                    {
+                      var item = '{ "x": ' + i + ", " + ' "y": ' + res.data.data.values[i] + "}";
+                      if(i < res.data.data.dates.length - 1)
+                        item += ", ";
+                      chartData += item;
+                    }
+                    chartData += "]";
 
-                    var canvasContainer = document.getElementById("canvasContainer");
+                    console.log("Chartdata: " + chartData);
 
-                    if(this.canvas != null)
-                        this.canvas.remove();
+                    var chart = new Chart("chartCanvas");
 
-                    canvasContainer.innerHTML = '<canvas id="canvas"></canvas>';
-
-                    this.canvas = document.getElementById("canvas")
-
-                    new Chart(canvas.getContext("2d")).Line(chartData, {
-                        responsive: true
-                    });
+                    chart.setData(chartData);
+                    chart.redraw();
                 });
         }
     }
 
     $scope.useWord(getParam());
 }]);
-
