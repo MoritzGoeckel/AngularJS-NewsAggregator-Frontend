@@ -47,10 +47,12 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         {
             $scope.createChart();
             $scope.headline = "Artikel zu "+ capitaliseFirstLetter(word);
+            document.getElementById("chartCanvas").style.height = "300px";
         }
         else
         {
             $scope.headline = "Aktuelle Artikel";
+            document.getElementById("chartCanvas").style.height = "0px";
         }
 
         $scope.downloadWords();
@@ -102,6 +104,8 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     chartData += "]";
 
                     console.log("Chartdata: " + chartData);
+
+                    document.getElementById("chartCanvas").style.height = "300px";
 
                     var chart = new Chart("chartCanvas");
 
