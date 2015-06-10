@@ -34,10 +34,10 @@ function Chart(container_id)
     context.stroke();
   };
 
-  var maxX = -1000000000000;
-  var minX = 1000000000000;
-  var maxY = -1000000000000;
-  var minY = 1000000000000;
+  var maxX = -100000000000000;
+  var minX = 100000000000000;
+  var maxY = -100000000000000;
+  var minY = 100000000000000;
 
 
   this.calcExtrema = function(){

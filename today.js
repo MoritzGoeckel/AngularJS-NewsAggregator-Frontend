@@ -97,11 +97,11 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     for(i = 0; i < res.data.data.dates.length; i++)
                     {
                       var dateStr = res.data.data.dates[i];
-                      var date = new Date(dateStr.substring(0, 4), dateStr.substring(4, 2), dateStr.substring(6, 2), 0, 0, 0, 0);
+                      var date = new Date(dateStr.substr(0, 4), dateStr.substr(4, 2), dateStr.substr(6, 2), 0, 0, 0, 0);
                       
                       var timestamp = (date.getTime() / 1000);
                       
-                      console.log("Date: " + timestamp);
+                      console.log("Date: " + dateStr + " " + dateStr.substr(0, 4) + " " + dateStr.substr(4, 2) + " " + dateStr.substr(6, 2) + " " + timestamp);
                       
                       var item = '{ "x": ' + timestamp + ", " + ' "y": ' + res.data.data.values[i] + "}";
                       if(i < res.data.data.dates.length - 1)
