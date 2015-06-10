@@ -96,7 +96,14 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     var chartData = "[";
                     for(i = 0; i < res.data.data.dates.length; i++)
                     {
-                      var item = '{ "x": ' + i + ", " + ' "y": ' + res.data.data.values[i] + "}";
+                      var dateStr = res.data.data.dates[i];
+                      var date = new Date(dateStr.substring(0, 4), dateStr.substring(4, 2), dateStr.substring(6, 2), 0, 0, 0, 0);
+                      
+                      var timestamp = (date.getTime() / 1000);
+                      
+                      console.log("Date: " + timestamp);
+                      
+                      var item = '{ "x": ' + timestamp + ", " + ' "y": ' + res.data.data.values[i] + "}";
                       if(i < res.data.data.dates.length - 1)
                         item += ", ";
                       chartData += item;
