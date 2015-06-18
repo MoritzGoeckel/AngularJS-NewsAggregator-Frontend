@@ -39,17 +39,21 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
     };
     
     $scope.downloadPictures = function(word){
-        var url = 'https://api.flickr.com/services/feeds/photos_public.gne?tags=' + word + '&format=json';
-
+        var url = 'http://api.flickr.com/services/feeds/photos_public.gne?tags=' + word + '&format=json&nojsoncallback=1';
+        
         console.log(url);
-
-        if($scope.word_search != null && $scope.word_search != ""){
-            $http.get(url)
-            .then(function (res) {
-                $scope.pictures = res.data;
-                console.log($scope.pictures);
-            });
-        }
+        
+        $http.get(url)
+        .then(function (res) {
+            var str = res.data;
+            str = str.replace("\\'", "");
+            str = str.replace("'", "");
+            
+            console.log(str);
+            
+            $scope.pictures = JSON.parse(str);
+            console.log($scope.pictures);
+        });
     };
 
     $scope.useWord = function (word) {

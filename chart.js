@@ -57,13 +57,13 @@ function Chart(container_id)
         minY = y;
     }
 
-    console.log("X: " + maxX + " <-> " + minX);
-    console.log("Y: " + maxY + " <-> " + minY);
+    //console.log("X: " + maxX + " <-> " + minX);
+    //console.log("Y: " + maxY + " <-> " + minY);
   };
 
 
   this.setData = function(json){
     data = jQuery.parseJSON(json);
-    console.log(data);
+    //console.log(data);
   };
 }
