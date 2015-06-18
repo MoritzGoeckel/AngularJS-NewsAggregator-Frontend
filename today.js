@@ -37,6 +37,20 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
             return index++ % 2 == 1;
         };
     };
+    
+    $scope.downloadPictures = function(word){
+        var url = 'https://api.flickr.com/services/feeds/photos_public.gne?tags=' + word + '&format=json';
+
+        console.log(url);
+
+        if($scope.word_search != null && $scope.word_search != ""){
+            $http.get(url)
+            .then(function (res) {
+                $scope.pictures = res.data;
+                console.log($scope.pictures);
+            });
+        }
+    };
 
     $scope.useWord = function (word) {
         console.log("Word: " + word);
@@ -48,6 +62,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
             $scope.createChart();
             $scope.headline = "Artikel zu "+ capitaliseFirstLetter(word);
             document.getElementById("chartCanvas").style.height = "300px";
+            $scope.downloadPictures(word);
         }
         else
         {
@@ -101,7 +116,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                       
                       var timestamp = (date.getTime() / 1000);
                       
-                      console.log("Date: " + dateStr + " " + dateStr.substr(0, 4) + " " + dateStr.substr(4, 2) + " " + dateStr.substr(6, 2) + " " + timestamp);
+                      //console.log("Date: " + dateStr + " " + dateStr.substr(0, 4) + " " + dateStr.substr(4, 2) + " " + dateStr.substr(6, 2) + " " + timestamp);
                       
                       var item = '{ "x": ' + timestamp + ", " + ' "y": ' + res.data.data.values[i] + "}";
                       if(i < res.data.data.dates.length - 1)
@@ -110,7 +125,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     }
                     chartData += "]";
 
-                    console.log("Chartdata: " + chartData);
+                    //console.log("Chartdata: " + chartData);
 
                     document.getElementById("chartCanvas").style.height = "300px";
 

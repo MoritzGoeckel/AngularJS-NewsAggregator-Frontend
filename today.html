@@ -52,11 +52,17 @@
 					<strong><a href="" onclick="openWindow()">Weitere Artikel</a></strong>
 
 					<p>
-          <div style="width:95%">
-              <div id="canvasContainer">
-								<canvas id="chartCanvas" width="700px" height="300px"></canvas>
-							</div>
-          </div>
+                  <div style="width:95%">
+                        <div id="canvasContainer">
+        					<canvas id="chartCanvas" width="700px" height="300px"></canvas>
+        			    </div>
+        			    
+        			    <div id="pictures">
+        			        <span ng-repeat="picture in pictures">
+        			            <img src="{{picture}}" />
+        			        </span>
+        			    </div>
+                  </div>
 
 
 					<a href="http://moritzgoeckel.com" class="byText"><br />von Moritz G&ouml;ckel</a>
