@@ -38,21 +38,44 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         };
     };
     
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+    
     $scope.downloadPictures = function(word){
-        var url = 'http://api.flickr.com/services/feeds/photos_public.gne?tags=' + word + '&format=json&nojsoncallback=1';
+        var uri = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + word + "&format=json&nojsoncallback=1";
         
-        console.log(url);
+        console.log("Downloading: " + uri);
         
-        $http.get(url)
-        .then(function (res) {
-            var str = res.data;
-            str = str.replace("\\'", "");
-            str = str.replace("'", "");
+        $.ajaxSetup({
+            error: function(xhr, status, error) {
             
-            console.log(str);
-            
-            $scope.pictures = JSON.parse(str);
-            console.log($scope.pictures);
+            var str = xhr.responseText;
+            if(str.indexOf("flickr") != -1){
+                //Valid response of the flicker api. Not an error
+                var picturesUrls = []; 
+                
+                var pattern = /\"media\"\:[^\{]*\{[^\"]*\"m\":[^\"]*\"([^\"]+)\"[^\}]*\}/g;
+                while (match = pattern.exec(str))
+                    picturesUrls.push(match[1]);
+                    
+                //Remove random until only 3 left
+                /*while (picturesUrls.length > 1000) { 
+                    //picturesUrls.splice(getRandomInt(0, picturesUrls.length - 1), 1);
+                }*/
+                
+                while (picturesUrls.length > 1000) { 
+                    picturesUrls.splice(picturesUrls.length - 1, 1);
+                }
+                
+                $scope.pictures = picturesUrls;
+            }
+         } 
+        });
+        
+        $.get( uri, function( data ) {
+            console.log("Downloaded");
+            //console.log(data);
         });
     };
 

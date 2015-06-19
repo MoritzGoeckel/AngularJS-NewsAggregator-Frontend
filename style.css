@@ -112,3 +112,14 @@ small
 	width: calc(100% / 7);
 	text-transform:capitalize;
 }
+
+#pictures{
+    padding-top: 20px;
+    /*padding-bottom: 10px;*/
+    overflow: scroll;
+}
+
+#pictures img{
+    max-height: 150px;
+    /*max-width: 200px;*/
+}
