@@ -55,15 +55,12 @@
 					<p>
                   <div style="width:95%">
                         <div id="canvasContainer">
-        					<canvas id="chartCanvas" width="700px" height="300px"></canvas>
+        					<canvas id="chartCanvas"></canvas>
         			    </div>
-        			    
         			    <div id="pictures">
     			            <img ng-repeat="picture in pictures" src="{{picture}}"/>
         			    </div>
                   </div>
-
-
 					<a href="http://moritzgoeckel.com" class="byText"><br />von Moritz G&ouml;ckel</a>
 				</div>
 
@@ -73,7 +70,7 @@
 				</div>
 
 				<div id="words_right">
-                    <input type="text" ng-keyup="downloadWords()" ng-model="word_search" style="width: 100%; font-family: 'Times New Roman', Times, serif; font-size: 1.3em; margin-top: 23px; margin-bottom: 22px;" placeholder=" Suche">
+                    <input type="text" ng-keyup="downloadWords()" ng-model="word_search" placeholder=" Suche">
                     <span ng-repeat="item in words.data" ng-if="$even"><a ng-click="useWord(this.item.word)" word="{{item.word}}" href="today.html#{{item.word}}">{{item.word}}</a> <small>[{{item.count}}]</small><br /></span>
 				</div>
 			</div>

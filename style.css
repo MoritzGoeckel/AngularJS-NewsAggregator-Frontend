@@ -1,3 +1,5 @@
+/* Geraete unabhaenging */
+
 a:link, a:visited , a:active{
 	color: #0645AD;
 	text-decoration:none;
@@ -9,7 +11,7 @@ a:hover{
 
 body
 {
-	//font-family: 'Oswald', sans-serif;
+	/* font-family: 'Oswald', sans-serif; */
 	font-family: "Times New Roman", Times, serif
 }
 
@@ -17,22 +19,85 @@ body
 	border-top:solid black 1px;
 }
 
-#main
-{
-	width: 1000px;
-	border: 1px solid black;
-	float: left;
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-bottom: 30px;
-	margin-left: calc(50% - 500px);
-	margin-bottom: 30px;
-	margin-top: 20px;
-}
-
 h1{
 	font-size: 30;
 	font-weight: bold;
+}
+
+#words_right{
+	float: right;
+	text-align: right;
+}
+
+#words_left{
+	float: left;
+	text-align: left;
+}
+
+#head
+{
+	text-align: center;
+}
+
+.byText, a.byText:link, a.byText:visited, a.byText:active{
+	text-decoration:none;
+	color: black;
+
+	transition: all 0.3s ease;
+}
+
+a.byText:hover{
+	letter-spacing: 0.05em;
+}
+
+a.head_link:link, a.head_link:visited, a.head_link:active
+{
+	text-decoration:none;
+	color: black;
+	
+	letter-spacing: 1.2em;
+	
+	/* transition: all 1s ease; */
+}
+
+a.head_link:hover
+{
+	/* letter-spacing: 1.8em; */
+}
+
+small
+{
+	font-size: 0.7em;
+}
+
+@media only screen and (min-width:1220px){
+    #main
+    {
+    	width: 1150px;
+    	overflow: auto;  
+    	
+    	/* border: 1px solid black; */
+
+    	padding-left: 30px;
+    	padding-right: 30px;
+    	padding-bottom: 10px;
+    	
+    	margin-bottom: 7px;
+    	
+        margin-left: auto;
+    	margin-right: auto;
+    	
+    	-webkit-box-shadow: 5px 5px 35px 0px rgba(0,0,0,0.6);
+        -moz-box-shadow: 5px 5px 35px 0px rgba(0,0,0,0.6);
+        box-shadow: 5px 5px 35px 0px rgba(0,0,0,0.6);
+    }
+}
+
+@media only screen and (max-device-width:1150px){
+    #main
+    {
+    	width: 100%;
+    }
 }
 
 #content{
@@ -54,56 +119,30 @@ h1{
 	text-transform:capitalize;
 }
 
-#words_right{
-	float: right;
-	text-align: right;
+#words_right input, #words_left input{
+
 }
 
-#words_left{
-	float: left;
-	text-align: left;
+#words_right input {
+    width: 100%;
+    height: 30px;
+    font-size: 1.3em;
+    margin-top: 23px;   
+    margin-bottom: 22px;
+    
+    border: solid 1px #c9c9c9;
+    transition: border 0.3s;
 }
 
-#head
-{
-	text-align: center;
+#words_right input:focus,
+#words_right input.focus {
+    border: solid 1px #969696;
 }
 
 .logotext
 {
 	font-size: 100;
 	font-weight: bold;
-}
-
-.byText, a.byText:link, a.byText:visited, a.byText:active{
-	text-decoration:none;
-	color: black;
-
-	transition: all 0.3s ease;
-}
-
-a.byText:hover{
-	letter-spacing: 0.05em;
-}
-
-a.head_link:link, a.head_link:visited, a.head_link:active
-{
-	text-decoration:none;
-	color: black;
-	
-	letter-spacing: 1.2em;
-	
-	//transition: all 1s ease;
-}
-
-a.head_link:hover
-{
-	//letter-spacing: 1.8em;
-}
-
-small
-{
-	font-size: 0.7em;
 }
 
 .weekdayList
@@ -115,11 +154,16 @@ small
 
 #pictures{
     padding-top: 20px;
-    /*padding-bottom: 10px;*/
     overflow: scroll;
+    width: 100%;
 }
 
 #pictures img{
     max-height: 150px;
     /*max-width: 200px;*/
+}
+
+#chartCanvas{
+    height: 155px;
+    width: 100%;
 }

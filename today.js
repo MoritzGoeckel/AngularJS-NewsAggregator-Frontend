@@ -61,7 +61,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     
                 //Remove random until only 3 left
                 /*while (picturesUrls.length > 1000) { 
-                    //picturesUrls.splice(getRandomInt(0, picturesUrls.length - 1), 1);
+                    picturesUrls.splice(getRandomInt(0, picturesUrls.length - 1), 1);
                 }*/
                 
                 while (picturesUrls.length > 1000) { 
@@ -88,7 +88,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         {
             $scope.createChart();
             $scope.headline = "Artikel zu "+ capitaliseFirstLetter(word);
-            document.getElementById("chartCanvas").style.height = "300px";
+            document.getElementById("chartCanvas").style.height = "155px";
             $scope.downloadPictures(word);
         }
         else
@@ -153,9 +153,7 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     chartData += "]";
 
                     //console.log("Chartdata: " + chartData);
-
-                    document.getElementById("chartCanvas").style.height = "300px";
-
+                    
                     var chart = new Chart("chartCanvas");
 
                     chart.setData(chartData);
