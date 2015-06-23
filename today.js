@@ -45,12 +45,13 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
     $scope.downloadPictures = function(word){
         var uri = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + word + "&format=json&nojsoncallback=1";
         
+        uri = encodeURIComponent(uri);
+        uri = "proxy.php?url=" + uri;
+        
         console.log("Downloading: " + uri);
         
-        $.ajaxSetup({
-            error: function(xhr, status, error) {
-            
-            var str = xhr.responseText;
+        $.get( uri, function( data ) {
+            var str = data;
             if(str.indexOf("flickr") != -1){
                 //Valid response of the flicker api. Not an error
                 var picturesUrls = []; 
@@ -64,18 +65,12 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                     picturesUrls.splice(getRandomInt(0, picturesUrls.length - 1), 1);
                 }*/
                 
-                while (picturesUrls.length > 1000) { 
+                while (picturesUrls.length > 10) { 
                     picturesUrls.splice(picturesUrls.length - 1, 1);
                 }
                 
                 $scope.pictures = picturesUrls;
             }
-         } 
-        });
-        
-        $.get( uri, function( data ) {
-            console.log("Downloaded");
-            //console.log(data);
         });
     };
 
