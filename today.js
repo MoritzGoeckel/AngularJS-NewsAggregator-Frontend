@@ -45,15 +45,14 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
     $scope.downloadPictures = function(word){
         var uri = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + word + "&format=json&nojsoncallback=1";
         
-        uri = encodeURIComponent(uri);
-        uri = "proxy.php?url=" + uri;
+        uri = encodeURIComponent(uri); //Encode it
+        uri = "proxy.php?url=" + uri; //Route it thought the proxy
         
         console.log("Downloading: " + uri);
         
         $.get( uri, function( data ) {
             var str = data;
             if(str.indexOf("flickr") != -1){
-                //Valid response of the flicker api. Not an error
                 var picturesUrls = []; 
                 
                 var pattern = /\"media\"\:[^\{]*\{[^\"]*\"m\":[^\"]*\"([^\"]+)\"[^\}]*\}/g;
