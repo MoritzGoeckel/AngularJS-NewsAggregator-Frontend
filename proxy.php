@@ -17,7 +17,7 @@ function url_get_contents ($Url) {
 if(isset($_GET['url'])){
     $url = urldecode($_GET['url']);
 
-    $queryId = $_GET['url']);
+    $queryId = $_GET['url'];
     $output = $cache->get($queryId);
     if($output == null) {
          if(ini_get('allow_url_fopen'))
