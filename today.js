@@ -32,18 +32,18 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
     $scope.filterEven = function (index) {
         return function (item) {
             return index++ % 2 == 1;
         };
     };
     
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
-    
     $scope.downloadPictures = function(word){
-        
+        //Make the word web friendly :)
         var webFriendlyWord = word;
         webFriendlyWord = webFriendlyWord.toLowerCase();
         webFriendlyWord = webFriendlyWord.replace("ß", "ss");
@@ -51,12 +51,12 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         webFriendlyWord = webFriendlyWord.replace("ü", "ue");
         webFriendlyWord = webFriendlyWord.replace("ä", "ae");
         
+        //Build the uri
         var uri = "http://api.tumblr.com/v2/tagged?tag=" + webFriendlyWord + "&api_key=fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4";
         uri = encodeURIComponent(uri); //Encode it
-        uri = "proxy.php?url=" + uri; //Route it thought the proxy
+        uri = "proxy.php?url=" + uri; //Route it thought the proxy for chaching and the browser security settings
         
-        console.log("Downloading: " + uri);
-        
+        //Handle the response by putting the urls into an array
         $.get( uri, function( str ) {
             var picturesUrls = []; 
             
@@ -65,19 +65,19 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
             if(data.meta.status == 200)
             {
                 for (responseItemIndex = 0; (responseItemIndex < data.response.length && picturesUrls.length < 20); ++responseItemIndex) {
-                        for (photoIndex = 0; (data.response[responseItemIndex].photos != null && photoIndex < data.response[responseItemIndex].photos.length); ++photoIndex)
+                    for (photoIndex = 0; (data.response[responseItemIndex].photos != null && photoIndex < data.response[responseItemIndex].photos.length); ++photoIndex)
+                    {
+                        var sizes = data.response[responseItemIndex].photos[photoIndex];
+                        for (sizeIndex = 0; sizeIndex < sizes.alt_sizes.length; ++sizeIndex) 
                         {
-                            var sizes = data.response[responseItemIndex].photos[photoIndex];
-                            for (sizeIndex = 0; sizeIndex < sizes.alt_sizes.length; ++sizeIndex) 
+                            var height = sizes.alt_sizes[sizeIndex].height;
+                            if(height >= 150 && height <= 400)
                             {
-                                var height = sizes.alt_sizes[sizeIndex].height;
-                                if(height >= 150 && height <= 400)
-                                {
-                                    picturesUrls.push(sizes.alt_sizes[sizeIndex].url);
-                                    break;
-                                }
+                                picturesUrls.push(sizes.alt_sizes[sizeIndex].url);
+                                break;
                             }
                         }
+                    }
                 }
                 
                 $scope.pictures = picturesUrls;
@@ -110,8 +110,6 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
     $scope.downloadWords = function ()
     {
         var url = 'http://minutus.de/news/api.php?mode=words&count=88&date=' + getToday(); //Heute
-
-        console.log(url);
 
         if($scope.word_search != null && $scope.word_search != "")
             url = 'http://minutus.de/news/api.php?mode=words&count=88&search=' + $scope.word_search;
@@ -149,16 +147,12 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
                       
                       var timestamp = (date.getTime() / 1000);
                       
-                      //console.log("Date: " + dateStr + " " + dateStr.substr(0, 4) + " " + dateStr.substr(4, 2) + " " + dateStr.substr(6, 2) + " " + timestamp);
-                      
                       var item = '{ "x": ' + timestamp + ", " + ' "y": ' + res.data.data.values[i] + "}";
                       if(i < res.data.data.dates.length - 1)
                         item += ", ";
                       chartData += item;
                     }
                     chartData += "]";
-
-                    //console.log("Chartdata: " + chartData);
                     
                     var chart = new Chart("chartCanvas");
 
@@ -168,5 +162,6 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         }
     }
 
+    //Init
     $scope.useWord(getParam());
 }]);
