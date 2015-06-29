@@ -43,29 +43,38 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
     }
     
     $scope.downloadPictures = function(word){
-        var uri = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + word + "&format=json&nojsoncallback=1";
-        
+        var uri = "http://api.tumblr.com/v2/tagged?tag=" + word + "&api_key=fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4";
         uri = encodeURIComponent(uri); //Encode it
         uri = "proxy.php?url=" + uri; //Route it thought the proxy
         
         console.log("Downloading: " + uri);
         
-        $.get( uri, function( data ) {
-            var str = data;
-            if(str.indexOf("flickr") != -1){
-                var picturesUrls = []; 
+        $.get( uri, function( str ) {
+            var picturesUrls = []; 
+            
+            data = JSON.parse(str);
+            if(data.meta.status == 200)
+            {
+                //picturesUrls.push(match[1]);
                 
-                var pattern = /\"media\"\:[^\{]*\{[^\"]*\"m\":[^\"]*\"([^\"]+)\"[^\}]*\}/g;
-                while (match = pattern.exec(str))
-                    picturesUrls.push(match[1]);
+                var i = 0;
+                while (i < data.response.length && picturesUrls.length < 10) {
                     
-                //Remove random until only 3 left
-                /*while (picturesUrls.length > 1000) { 
-                    picturesUrls.splice(getRandomInt(0, picturesUrls.length - 1), 1);
-                }*/
-                
-                while (picturesUrls.length > 10) { 
-                    picturesUrls.splice(picturesUrls.length - 1, 1);
+                    if(data.response[i].photos != null)
+                    {
+                        for (a = 0; a < data.response[i].photos.length; ++a)
+                        {
+                            var photos = data.response[i].photos[a];
+                            for (photoIndex = 0; photoIndex < photos.alt_sizes.length; ++photoIndex) {
+                                var width = photos.alt_sizes[photoIndex].width;
+                                if(width >= 150 && width <= 300){
+                                    picturesUrls.push(photos.alt_sizes[photoIndex].url);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    i++;
                 }
                 
                 $scope.pictures = picturesUrls;
