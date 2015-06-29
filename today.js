@@ -43,7 +43,15 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
     }
     
     $scope.downloadPictures = function(word){
-        var uri = "http://api.tumblr.com/v2/tagged?tag=" + word + "&api_key=fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4";
+        
+        var webFriendlyWord = word;
+        webFriendlyWord = webFriendlyWord.toLowerCase();
+        webFriendlyWord = webFriendlyWord.replace("ß", "ss");
+        webFriendlyWord = webFriendlyWord.replace("ö", "oe");
+        webFriendlyWord = webFriendlyWord.replace("ü", "ue");
+        webFriendlyWord = webFriendlyWord.replace("ä", "ae");
+        
+        var uri = "http://api.tumblr.com/v2/tagged?tag=" + webFriendlyWord + "&api_key=fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4";
         uri = encodeURIComponent(uri); //Encode it
         uri = "proxy.php?url=" + uri; //Route it thought the proxy
         
@@ -52,29 +60,24 @@ App.controller('searchController', ['$scope', '$http', function($scope, $http) {
         $.get( uri, function( str ) {
             var picturesUrls = []; 
             
+            //parse the data from tumblr
             data = JSON.parse(str);
             if(data.meta.status == 200)
             {
-                //picturesUrls.push(match[1]);
-                
-                var i = 0;
-                while (i < data.response.length && picturesUrls.length < 10) {
-                    
-                    if(data.response[i].photos != null)
-                    {
-                        for (a = 0; a < data.response[i].photos.length; ++a)
+                for (responseItemIndex = 0; (responseItemIndex < data.response.length && picturesUrls.length < 20); ++responseItemIndex) {
+                        for (photoIndex = 0; (data.response[responseItemIndex].photos != null && photoIndex < data.response[responseItemIndex].photos.length); ++photoIndex)
                         {
-                            var photos = data.response[i].photos[a];
-                            for (photoIndex = 0; photoIndex < photos.alt_sizes.length; ++photoIndex) {
-                                var width = photos.alt_sizes[photoIndex].width;
-                                if(width >= 150 && width <= 300){
-                                    picturesUrls.push(photos.alt_sizes[photoIndex].url);
+                            var sizes = data.response[responseItemIndex].photos[photoIndex];
+                            for (sizeIndex = 0; sizeIndex < sizes.alt_sizes.length; ++sizeIndex) 
+                            {
+                                var height = sizes.alt_sizes[sizeIndex].height;
+                                if(height >= 150 && height <= 400)
+                                {
+                                    picturesUrls.push(sizes.alt_sizes[sizeIndex].url);
                                     break;
                                 }
                             }
                         }
-                    }
-                    i++;
                 }
                 
                 $scope.pictures = picturesUrls;
